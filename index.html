@@ -1,0 +1,599 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2761
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww28600\viewh18000\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="id" class="scroll-smooth">\
+<head>\
+    <meta charset="UTF-8">\
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+    <title>Keuangan Cerdas: Panduan Interaktif Anda</title>\
+    <script src="https://cdn.tailwindcss.com"></script>\
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>\
+    <link rel="preconnect" href="https://fonts.googleapis.com">\
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">\
+    <!-- Chosen Palette: Warm Neutrals & Deep Green -->\
+    <!-- Application Structure Plan: A single-page application with a sticky sidebar navigation for seamless topic switching. This structure was chosen to allow users to easily see all available financial topics at a glance and jump between them without reloading the page, creating a fluid and cohesive learning experience. Key interactions include interactive calculators (budgeting, debt), dynamic diagrams (investment choices), and expandable content sections (articles) to present information without overwhelming the user. -->\
+    <!-- Visualization & Content Choices: \
+    - Report Info: 50/30/20 Budget Rule -> Goal: Inform & Engage -> Viz: Interactive Pie Chart (Chart.js) -> Interaction: User inputs income, chart updates -> Justification: Makes a core budgeting concept tangible and personal.\
+    - Report Info: Investment Horizons (Short, Mid, Long term) -> Goal: Organize & Compare -> Viz: Interactive Card-based Diagram (HTML/CSS/JS) -> Interaction: Click cards to reveal details and risk levels -> Justification: Simplifies complex investment choices into a clear, visual decision tree.\
+    - Report Info: Debt Management (Avalanche Method) -> Goal: Inform & Demonstrate -> Viz: Simple Debt Prioritizer Tool (HTML/JS) -> Interaction: User inputs hypothetical debts, tool sorts them by interest rate -> Justification: Turns a strategic text-based tip into a practical, actionable demonstration.\
+    - Report Info: SMART Goals -> Goal: Engage & Apply -> Viz: Text Input + AI Generated Output (HTML/JS + Gemini API) -> Interaction: User inputs vague goal, AI transforms it into a specific, structured SMART goal -> Justification: Provides immediate, personalized, and actionable guidance based on the abstract planning principles discussed in the section.\
+    - All articles are placed in expandable accordions to keep the UI clean.\
+    -->\
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->\
+    <style>\
+        body \{\
+            font-family: 'Inter', sans-serif;\
+            background-color: #fdfaf6;\
+            color: #333;\
+        \}\
+        .nav-link \{\
+            transition: all 0.2s ease-in-out;\
+        \}\
+        .nav-link.active \{\
+            background-color: #059669;\
+            color: #ffffff;\
+            transform: translateX(4px);\
+        \}\
+        .content-card \{\
+            background-color: #ffffff;\
+            border: 1px solid #e5e7eb;\
+            border-radius: 0.75rem;\
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);\
+            transition: box-shadow 0.3s ease-in-out;\
+        \}\
+        .content-card:hover \{\
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);\
+        \}\
+        .accordion-title \{\
+            cursor: pointer;\
+        \}\
+        .accordion-content \{\
+            max-height: 0;\
+            overflow: hidden;\
+            transition: max-height 0.5s ease-in-out;\
+        \}\
+        .chart-container \{\
+            position: relative;\
+            width: 100%;\
+            max-width: 400px;\
+            margin-left: auto;\
+            margin-right: auto;\
+            height: 300px;\
+            max-height: 400px;\
+        \}\
+        @media (min-width: 768px) \{\
+            .chart-container \{\
+                height: 350px;\
+            \}\
+        \}\
+    </style>\
+</head>\
+<body class="bg-stone-50 text-stone-800">\
+\
+    <div class="container mx-auto max-w-7xl px-4">\
+        <div class="flex flex-col md:flex-row gap-8 py-8 md:py-12">\
+\
+            <!-- Sidebar Navigation -->\
+            <aside class="md:w-1/4 lg:w-1/5 md:sticky md:top-8 h-full">\
+                <div class="p-4 rounded-xl bg-white/60 backdrop-blur-sm border border-stone-200">\
+                    <h2 class="text-xl font-bold text-emerald-700 mb-4">Keuangan Cerdas</h2>\
+                    <nav id="navigation" class="flex flex-col space-y-2">\
+                        <a href="#tips-hemat" class="nav-link text-stone-600 hover:bg-emerald-100 hover:text-emerald-800 font-medium py-2 px-3 rounded-md">\uc0\u55357 \u56496  Tips Hemat</a>\
+                        <a href="#investasi" class="nav-link text-stone-600 hover:bg-emerald-100 hover:text-emerald-800 font-medium py-2 px-3 rounded-md">\uc0\u55357 \u56520  Investasi & Uang</a>\
+                        <a href="#utang" class="nav-link text-stone-600 hover:bg-emerald-100 hover:text-emerald-800 font-medium py-2 px-3 rounded-md">\uc0\u55357 \u56499  Utang & Kredit</a>\
+                        <a href="#kaum-muda" class="nav-link text-stone-600 hover:bg-emerald-100 hover:text-emerald-800 font-medium py-2 px-3 rounded-md">\uc0\u55358 \u56785 \u8205 \u55358 \u56605 \u8205 \u55358 \u56785  Keuangan Kaum Muda</a>\
+                        <a href="#produktivitas" class="nav-link text-stone-600 hover:bg-emerald-100 hover:text-emerald-800 font-medium py-2 px-3 rounded-md">\uc0\u9203  Produktivitas & Uang</a>\
+                        <a href="#review-produk" class="nav-link text-stone-600 hover:bg-emerald-100 hover:text-emerald-800 font-medium py-2 px-3 rounded-md">\uc0\u55357 \u57056 \u65039  Review Produk</a>\
+                    </nav>\
+                </div>\
+            </aside>\
+\
+            <!-- Main Content -->\
+            <main class="md:w-3/4 lg:w-4/5">\
+                <header class="mb-12 content-card p-6">\
+                    <h1 class="text-4xl font-bold text-emerald-800 mb-2">Panduan Hidup Kaya Raya (Tanpa Ribet)</h1>\
+                    <p class="text-lg text-stone-600">Selamat datang! Di sini, kami memecah topik keuangan yang kompleks menjadi langkah-langkah sederhana dan interaktif. Mulailah perjalanan Anda menuju kebebasan finansial sekarang.</p>\
+                </header>\
+                \
+                <div id="content-sections" class="space-y-12">\
+\
+                    <!-- Section: Tips Hemat -->\
+                    <section id="tips-hemat" class="space-y-6 content-card p-6 md:p-8">\
+                        <h2 class="text-3xl font-bold border-b-2 border-emerald-500 pb-2">\uc0\u55357 \u56496  Tips Menghemat Uang</h2>\
+                        <p class="text-stone-600">Strategi praktis untuk mengencangkan ikat pinggang tanpa harus menderita. Temukan cara-cara cerdas untuk memotong pengeluaran dan menabung lebih banyak setiap bulan.</p>\
+                        <div class="accordion-container space-y-4">\
+                            <!-- Article content will be injected here by JS -->\
+                        </div>\
+                    </section>\
+\
+                    <!-- Section: Investasi -->\
+                    <section id="investasi" class="space-y-6 content-card p-6 md:p-8">\
+                        <h2 class="text-3xl font-bold border-b-2 border-emerald-500 pb-2">\uc0\u55357 \u56520  Investasi & Pengelolaan Uang</h2>\
+                         <p class="text-stone-600">Memulai investasi bisa terasa menakutkan, tapi tidak harus begitu. Pelajari dasar-dasar investasi dan cara memilih instrumen yang tepat sesuai tujuan keuangan Anda dengan alat interaktif di bawah ini.</p>\
+                        \
+                        <div class="bg-stone-50 p-4 rounded-lg border">\
+                            <h3 class="font-bold text-lg mb-2 text-center">Pilih Horizon Investasi Anda</h3>\
+                            <div id="investment-selector" class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">\
+                                <button data-term="short" class="p-4 border-2 border-emerald-500 rounded-lg font-semibold bg-white hover:bg-emerald-50">Jangka Pendek (1-3 Thn)</button>\
+                                <button data-term="medium" class="p-4 border-2 border-transparent rounded-lg font-semibold bg-white hover:bg-emerald-50">Jangka Menengah (3-7 Thn)</button>\
+                                <button data-term="long" class="p-4 border-2 border-transparent rounded-lg font-semibold bg-white hover:bg-emerald-50">Jangka Panjang (>7 Thn)</button>\
+                            </div>\
+                            <div id="investment-details" class="mt-4 p-4 bg-white rounded-md text-center">\
+                                <!-- Details will be injected here -->\
+                            </div>\
+                        </div>\
+\
+                        <div class="accordion-container space-y-4">\
+                            <!-- Article content will be injected here by JS -->\
+                        </div>\
+                    </section>\
+\
+                    <!-- Section: Utang -->\
+                    <section id="utang" class="space-y-6 content-card p-6 md:p-8">\
+                        <h2 class="text-3xl font-bold border-b-2 border-emerald-500 pb-2">\uc0\u55357 \u56499  Utang & Kredit</h2>\
+                        <p class="text-stone-600">Utang bisa menjadi beban berat. Pelajari strategi efektif untuk mengelola dan melunasi utang lebih cepat, serta cara meningkatkan skor kredit Anda untuk masa depan finansial yang lebih baik.</p>\
+                        <div class="accordion-container space-y-4">\
+                             <!-- Article content will be injected here by JS -->\
+                        </div>\
+                    </section>\
+\
+                    <!-- Section: Kaum Muda -->\
+                    <section id="kaum-muda" class="space-y-6 content-card p-6 md:p-8">\
+                        <h2 class="text-3xl font-bold border-b-2 border-emerald-500 pb-2">\uc0\u55358 \u56785 \u8205 \u55358 \u56605 \u8205 \u55358 \u56785  Keuangan Kaum Muda</h2>\
+                        <p class="text-stone-600">Masa muda adalah waktu terbaik untuk membangun fondasi keuangan yang kuat. Coba kalkulator anggaran 50/30/20 di bawah ini untuk melihat bagaimana Anda bisa mengelola gaji pertama dengan bijak.</p>\
+                        \
+                        <div class="bg-stone-50 p-4 rounded-lg border">\
+                            <h3 class="font-bold text-lg mb-4 text-center">Kalkulator Anggaran 50/30/20</h3>\
+                            <div class="flex flex-col md:flex-row gap-6 items-center">\
+                                <div class="w-full md:w-1/2 space-y-4">\
+                                    <div>\
+                                        <label for="income" class="block font-medium mb-1">Pendapatan Bulanan (Rp)</label>\
+                                        <input type="number" id="income" placeholder="Contoh: 5000000" class="w-full p-2 border rounded-md">\
+                                    </div>\
+                                    <button id="calculate-budget" class="w-full bg-emerald-600 text-white font-bold py-2 px-4 rounded-md hover:bg-emerald-700 transition-colors">Hitung Anggaran</button>\
+                                    <div id="budget-results" class="space-y-2 text-sm"></div>\
+                                </div>\
+                                <div class="w-full md:w-1/2">\
+                                    <div class="chart-container">\
+                                        <canvas id="budgetChart"></canvas>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                        </div>\
+\
+                        <div class="accordion-container space-y-4">\
+                             <!-- Article content will be injected here by JS -->\
+                        </div>\
+                    </section>\
+\
+                    <!-- Section: Produktivitas -->\
+                    <section id="produktivitas" class="space-y-6 content-card p-6 md:p-8">\
+                        <h2 class="text-3xl font-bold border-b-2 border-emerald-500 pb-2">\uc0\u9203  Produktivitas & Uang</h2>\
+                        <p class="text-stone-600">Kebiasaan dan manajemen waktu Anda sangat memengaruhi kesehatan finansial. Pelajari cara membuat rencana yang realistis dan dapat dicapai untuk semua tujuan keuangan Anda.</p>\
+\
+                        <!-- NEW GEMINI FEATURE: SMART Goal Generator -->\
+                        <div class="bg-stone-50 p-4 rounded-lg border border-indigo-300">\
+                            <h3 class="font-bold text-lg mb-3 text-indigo-700">\uc0\u10024  Generator Tujuan Keuangan SMART</h3>\
+                            <p class="text-sm text-stone-600 mb-3">Masukkan tujuan keuangan umum Anda (misal: "Saya ingin menabung lebih banyak") dan biarkan AI mengubahnya menjadi target yang **Spesifik, Terukur, Dapat Dicapai, Relevan, dan Berbatas Waktu (SMART)**.</p>\
+                            <input type="text" id="vagueGoalInput" placeholder="Contoh: Saya mau bebas finansial" class="w-full p-2 border border-indigo-200 rounded-md mb-3">\
+                            <button id="generateSmartGoalBtn" class="w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded-md hover:bg-indigo-700 transition-colors flex items-center justify-center disabled:opacity-50">\
+                                <span id="generator-text">\uc0\u10024  Ubah Menjadi Tujuan SMART</span>\
+                                <span id="loading-spinner" class="hidden ml-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>\
+                            </button>\
+                            <div id="smartGoalOutput" class="mt-4 p-3 bg-white rounded-md border border-indigo-100 min-h-[50px] text-stone-700">Tujuan SMART Anda akan muncul di sini.</div>\
+                        </div>\
+                        \
+                        <div class="accordion-container space-y-4">\
+                             <!-- Article content will be injected here by JS -->\
+                        </div>\
+                    </section>\
+                    \
+                    <!-- Section: Review Produk -->\
+                    <section id="review-produk" class="space-y-6 content-card p-6 md:p-8">\
+                        <h2 class="text-3xl font-bold border-b-2 border-emerald-500 pb-2">\uc0\u55357 \u57056 \u65039  Review Produk Keuangan</h2>\
+                        <p class="text-stone-600">Memilih produk keuangan yang tepat bisa membingungkan. Gunakan ulasan perbandingan kami untuk memahami kelebihan dan kekurangan berbagai instrumen populer.</p>\
+                        <div class="accordion-container space-y-4">\
+                           <!-- Article content will be injected here by JS -->\
+                        </div>\
+                    </section>\
+\
+                </div>\
+            </main>\
+        </div>\
+    </div>\
+\
+    <script>\
+        document.addEventListener('DOMContentLoaded', function () \{\
+            const articleData = \{\
+                'tips-hemat': [\
+                    \{\
+                        title: '5 Tips Menghemat Uang yang Efektif untuk Mahasiswa',\
+                        content: `\
+                            <p>Kehidupan kuliah sering diwarnai dengan keterbatasan dana. Berikut adalah lima tips hemat yang dirancang khusus untuk kantong mahasiswa:</p>\
+                            <ol class="list-decimal list-inside space-y-2 mt-4 text-stone-600">\
+                                <li><strong>Prioritaskan Biaya Tetap (Kos dan Transportasi):</strong> Pilihlah kos atau tempat tinggal yang memiliki akses mudah ke kampus untuk mengurangi biaya transportasi harian.</li>\
+                                <li><strong>Masak Sendiri vs. Katering Harian:</strong> Memasak makanan dasar jauh lebih hemat. Pertimbangkan katering mingguan jika sibuk.</li>\
+                                <li><strong>Maksimalkan Sumber Daya Kampus:</strong> Gunakan Wi-Fi gratis, perpustakaan untuk buku, dan fasilitas olahraga gratis.</li>\
+                                <li><strong>Hapus Langganan yang Tidak Penting:</strong> Audit langganan digital Anda dan batalkan yang jarang terpakai.</li>\
+                                <li><strong>Batasi "Jajan" Harian yang Tidak Disadari:</strong> Kopi kekinian atau snack adalah pengeluaran kecil yang menumpuk.</li>\
+                            </ol>\
+                        `\
+                    \},\
+                    \{\
+                        title: 'Bagaimana cara menghemat uang untuk membeli rumah impian?',\
+                        content: `\
+                            <p>Membeli rumah adalah tujuan keuangan terbesar. Dibutuhkan perencanaan yang disiplin dan strategi penghematan yang terfokus. Berikut langkah-langkahnya:</p>\
+                             <ol class="list-decimal list-inside space-y-2 mt-4 text-stone-600">\
+                                <li><strong>Tentukan Target DP (Down Payment) dan Waktu:</strong> Ketahui target Anda. Berapa harga rumah dan DP yang dibutuhkan? Tentukan tanggal pasti Anda ingin membelinya.</li>\
+                                <li><strong>Anggap DP sebagai Utang Wajib:</strong> Alokasikan jumlah tabungan DP setiap bulan sebelum membayar tagihan lain (prinsip Pay Yourself First).</li>\
+                                <li><strong>Tinjau Ulang Biaya 'Wants' (Keinginan):</strong> Identifikasi pengeluaran untuk "keinginan" dan potong sebagian untuk dialihkan ke tabungan DP.</li>\
+                                <li><strong>Hasilkan Pendapatan Sampingan (Side Hustle):</strong> Cari sumber pendapatan tambahan dan masukkan 100% hasilnya ke dalam dana DP.</li>\
+                                <li><strong>Parkir Uang di Instrumen Tepat:</strong> Gunakan instrumen investasi berisiko rendah seperti Reksadana Pasar Uang atau Deposito untuk dana DP.</li>\
+                            </ol>\
+                        `\
+                    \}\
+                ],\
+                'investasi': [\
+                    \{\
+                        title: 'Panduan Investasi untuk Pemula: Cara Memulai dan Memilih Investasi yang Tepat',\
+                        content: `\
+                            <p>Sebagai pemula, kunci utamanya adalah kesabaran dan pengetahuan dasar. Ikuti langkah berikut:</p>\
+                            <ul class="list-disc list-inside space-y-2 mt-4 text-stone-600">\
+                                <li><strong>Pahami Prinsip Dasar: Risiko vs. Imbal Hasil.</strong> Semakin tinggi potensi keuntungan, semakin tinggi pula risikonya.</li>\
+                                <li><strong>Siapkan Dulu Tiga Pilar Finansial:</strong> Pastikan Anda memiliki Dana Darurat, Asuransi, dan sudah melunasi Utang Konsumtif.</li>\
+                                <li><strong>Pilih Instrumen yang Tepat:</strong> Sesuaikan dengan jangka waktu tujuan Anda (Pendek, Menengah, Panjang).</li>\
+                                <li><strong>Mulai dengan Otomatisasi (Dollar Cost Averaging/DCA):</strong> Investasikan jumlah yang sama secara rutin setiap bulan untuk mendisiplinkan diri.</li>\
+                            </ul>\
+                        `\
+                    \}\
+                ],\
+                'utang': [\
+                    \{\
+                        title: 'Cara Mengelola Utang Kartu Kredit yang Efektif',\
+                        content: `\
+                            <p>Utang kartu kredit bisa berbahaya karena bunganya sangat tinggi. Kelola dengan cara ini:</p>\
+                            <ol class="list-decimal list-inside space-y-2 mt-4 text-stone-600">\
+                                <li><strong>Hentikan Penggunaan Utang Baru:</strong> Berhenti menambah utang dan fokus hanya pada pembayaran.</li>\
+                                <li><strong>Prioritaskan Bunga Tertinggi (Metode Avalanche):</strong> Lunasi utang dengan bunga tertinggi terlebih dahulu untuk menghemat uang.</li>\
+                                <li><strong>Negosiasi Bunga Rendah:</strong> Hubungi penyedia kartu kredit Anda dan mintalah penurunan suku bunga.</li>\
+                                <li><strong>Manfaatkan "Transfer Saldo" (Balance Transfer):</strong> Pindahkan utang ke kartu kredit lain dengan promo bunga 0%.</li>\
+                                <li><strong>Buat Anggaran Khusus Utang:</strong> Sisihkan porsi tetap dari gaji untuk melunasi utang.</li>\
+                            </ol>\
+                        `\
+                    \}\
+                ],\
+                'kaum-muda': [\
+                     \{\
+                        title: 'Panduan Keuangan Pribadi untuk Kaum Muda: Cara Mengelola Uang dengan Bijak',\
+                        content: `\
+                            <p>Masa muda adalah waktu terbaik untuk membangun fondasi keuangan yang kuat. Berikut caranya:</p>\
+                             <ol class="list-decimal list-inside space-y-2 mt-4 text-stone-600">\
+                                <li><strong>Terapkan Anggaran 50/30/20:</strong> Alokasikan 50% untuk Kebutuhan, 30% Keinginan, dan 20% untuk Tabungan/Investasi.</li>\
+                                <li><strong>Otomatisasi Tabungan Sejak Awal:</strong> Terapkan prinsip "Bayar Diri Anda Sendiri Terlebih Dahulu" dengan transfer otomatis.</li>\
+                                <li><strong>Hindari Utang Konsumtif Mahal:</strong> Jangan gunakan utang untuk membeli barang yang nilainya akan turun.</li>\
+                                <li><strong>Mulai Investasi Sekecil Apapun:</strong> Manfaatkan kekuatan bunga majemuk sejak dini.</li>\
+                            </ol>\
+                        `\
+                    \}\
+                ],\
+                 'produktivitas': [\
+                    \{\
+                        title: 'Cara Membuat Rencana Keuangan yang Realistis dan Dapat Dicapai',\
+                        content: `\
+                            <p>Rencana keuangan adalah peta Anda menuju tujuan finansial. Berikut cara membuatnya:</p>\
+                            <ol class="list-decimal list-inside space-y-2 mt-4 text-stone-600">\
+                                <li><strong>Tentukan Tujuan SMART:</strong> Buat tujuan yang Spesifik, Terukur, Dapat Dicapai, Relevan, dan Berbatas Waktu.</li>\
+                                <li><strong>Audit Pengeluaran Masa Lalu:</strong> Lihat laporan bank selama 3 bulan untuk mengetahui kemana uang Anda pergi.</li>\
+                                <li><strong>Buat Anggaran Nol (Zero-Based Budgeting):</strong> Pastikan setiap rupiah dalam pendapatan Anda memiliki tugas.</li>\
+                                <li><strong>Rencanakan 'Dana Kesenangan' (Sinking Funds):</strong> Menabunglah secara khusus untuk liburan atau pembelian besar agar tidak berutang.</li>\
+                            </ol>\
+                        `\
+                    \}\
+                ],\
+                'review-produk': [\
+                    \{\
+                        title: 'Review Produk Investasi yang Populer: Kelebihan dan Kekurangan',\
+                        content: `\
+                            <p>Memilih tempat untuk menaruh uang Anda bisa membingungkan. Berikut perbandingan produk populer:</p>\
+                            <div class="overflow-x-auto mt-4">\
+                                <table class="w-full text-sm text-left">\
+                                    <thead class="bg-stone-100">\
+                                        <tr>\
+                                            <th class="p-2">Produk</th>\
+                                            <th class="p-2">Kelebihan</th>\
+                                            <th class="p-2">Kekurangan</th>\
+                                            <th class="p-2">Cocok Untuk</th>\
+                                        </tr>\
+                                    </thead>\
+                                    <tbody>\
+                                        <tr class="border-b">\
+                                            <td class="p-2 font-semibold">Reksadana Pasar Uang</td>\
+                                            <td class="p-2">Sangat likuid, risiko rendah.</td>\
+                                            <td class="p-2">Imbal hasil kecil.</td>\
+                                            <td class="p-2">Dana darurat, tujuan < 1 thn.</td>\
+                                        </tr>\
+                                        <tr class="border-b">\
+                                            <td class="p-2 font-semibold">Saham</td>\
+                                            <td class="p-2">Potensi imbal hasil tertinggi.</td>\
+                                            <td class="p-2">Risiko sangat tinggi.</td>\
+                                            <td class="p-2">Tujuan > 7 thn, profil risiko tinggi.</td>\
+                                        </tr>\
+                                        <tr>\
+                                            <td class="p-2 font-semibold">Emas Digital</td>\
+                                            <td class="p-2">Lindung nilai inflasi, modal kecil.</td>\
+                                            <td class="p-2">Tidak menghasilkan cash flow.</td>\
+                                            <td class="p-2">Diversifikasi, jangka menengah.</td>\
+                                        </tr>\
+                                    </tbody>\
+                                </table>\
+                            </div>\
+                        `\
+                    \}\
+                ]\
+            \};\
+            \
+            const createAccordion = (title, content) => \{\
+                const articleDiv = document.createElement('div');\
+                articleDiv.className = 'bg-white border rounded-lg overflow-hidden';\
+                articleDiv.innerHTML = `\
+                    <div class="accordion-title p-4 flex justify-between items-center font-semibold text-emerald-800 hover:bg-emerald-50">\
+                        <span>$\{title\}</span>\
+                        <span class="transform transition-transform duration-300">\uc0\u9660 </span>\
+                    </div>\
+                    <div class="accordion-content">\
+                        <div class="p-4 border-t text-stone-600">$\{content\}</div>\
+                    </div>\
+                `;\
+                return articleDiv;\
+            \};\
+\
+            Object.keys(articleData).forEach(sectionId => \{\
+                const container = document.querySelector(`#$\{sectionId\} .accordion-container`);\
+                if(container) \{\
+                    articleData[sectionId].forEach(article => \{\
+                        const accordion = createAccordion(article.title, article.content);\
+                        container.appendChild(accordion);\
+                    \});\
+                \}\
+            \});\
+            \
+            document.querySelectorAll('.accordion-container').forEach(container => \{\
+                 container.addEventListener('click', (e) => \{\
+                    const title = e.target.closest('.accordion-title');\
+                    if (title) \{\
+                        const content = title.nextElementSibling;\
+                        const icon = title.querySelector('span:last-child');\
+                        if (content.style.maxHeight) \{\
+                            content.style.maxHeight = null;\
+                            icon.style.transform = 'rotate(0deg)';\
+                        \} else \{\
+                            document.querySelectorAll('.accordion-content').forEach(c => \{\
+                                c.style.maxHeight = null;\
+                                c.previousElementSibling.querySelector('span:last-child').style.transform = 'rotate(0deg)';\
+                            \});\
+                            content.style.maxHeight = content.scrollHeight + "px";\
+                            icon.style.transform = 'rotate(180deg)';\
+                        \}\
+                    \}\
+                \});\
+            \});\
+\
+            const sections = document.querySelectorAll('section');\
+            const navLinks = document.querySelectorAll('#navigation .nav-link');\
+\
+            const observer = new IntersectionObserver((entries) => \{\
+                entries.forEach(entry => \{\
+                    if (entry.isIntersecting) \{\
+                        navLinks.forEach(link => \{\
+                            link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);\
+                        \});\
+                    \}\
+                \});\
+            \}, \{ rootMargin: '-30% 0px -70% 0px' \});\
+            sections.forEach(sec => observer.observe(sec));\
+            \
+            const investmentDetails = \{\
+                short: \{\
+                    title: "Jangka Pendek (1-3 Tahun)",\
+                    risk: "Rendah",\
+                    color: "bg-green-100 text-green-800",\
+                    instruments: "Reksadana Pasar Uang, Deposito",\
+                    goal: "Keamanan modal untuk tujuan seperti dana darurat atau DP rumah."\
+                \},\
+                medium: \{\
+                    title: "Jangka Menengah (3-7 Tahun)",\
+                    risk: "Menengah",\
+                    color: "bg-yellow-100 text-yellow-800",\
+                    instruments: "Reksadana Pendapatan Tetap, Emas, Obligasi",\
+                    goal: "Pertumbuhan modal yang seimbang untuk tujuan seperti biaya pendidikan."\
+                \},\
+                long: \{\
+                    title: "Jangka Panjang (>7 Tahun)",\
+                    risk: "Tinggi",\
+                    color: "bg-red-100 text-red-800",\
+                    instruments: "Saham, Reksadana Saham, Properti",\
+                    goal: "Potensi pertumbuhan tertinggi untuk tujuan seperti dana pensiun."\
+                \}\
+            \};\
+\
+            const investmentSelector = document.getElementById('investment-selector');\
+            const investmentDetailsContainer = document.getElementById('investment-details');\
+\
+            function updateInvestmentDetails(term) \{\
+                const data = investmentDetails[term];\
+                investmentDetailsContainer.innerHTML = `\
+                    <h4 class="font-bold text-lg">$\{data.title\}</h4>\
+                    <p class="mt-1"><span class="font-semibold">Tingkat Risiko:</span> <span class="px-2 py-1 text-xs font-medium rounded-full $\{data.color\}">$\{data.risk\}</span></p>\
+                    <p class="mt-2"><span class="font-semibold">Contoh Instrumen:</span> $\{data.instruments\}</p>\
+                    <p class="mt-1 text-sm text-stone-500">$\{data.goal\}</p>\
+                `;\
+                investmentSelector.querySelectorAll('button').forEach(btn => \{\
+                    btn.classList.remove('border-emerald-500');\
+                    btn.classList.add('border-transparent');\
+                \});\
+                investmentSelector.querySelector(`button[data-term="$\{term\}"]`).classList.add('border-emerald-500');\
+            \}\
+            \
+            investmentSelector.addEventListener('click', (e) => \{\
+                if (e.target.tagName === 'BUTTON') \{\
+                    updateInvestmentDetails(e.target.dataset.term);\
+                \}\
+            \});\
+\
+            updateInvestmentDetails('short');\
+\
+            let budgetChart;\
+            const budgetChartCanvas = document.getElementById('budgetChart').getContext('2d');\
+            const calculateBudgetBtn = document.getElementById('calculate-budget');\
+            const incomeInput = document.getElementById('income');\
+            const budgetResults = document.getElementById('budget-results');\
+\
+            function createOrUpdateChart(needs, wants, savings) \{\
+                const data = \{\
+                    labels: ['Kebutuhan (50%)', 'Keinginan (30%)', 'Tabungan (20%)'],\
+                    datasets: [\{\
+                        data: [needs, wants, savings],\
+                        backgroundColor: ['#059669', '#f59e0b', '#3b82f6'],\
+                        borderColor: '#ffffff',\
+                        borderWidth: 2,\
+                    \}]\
+                \};\
+\
+                if (budgetChart) \{\
+                    budgetChart.data = data;\
+                    budgetChart.update();\
+                \} else \{\
+                    budgetChart = new Chart(budgetChartCanvas, \{\
+                        type: 'doughnut',\
+                        data: data,\
+                        options: \{\
+                            responsive: true,\
+                            maintainAspectRatio: false,\
+                            plugins: \{\
+                                legend: \{\
+                                    position: 'bottom',\
+                                \},\
+                                tooltip: \{\
+                                    callbacks: \{\
+                                        label: function(context) \{\
+                                            let label = context.label || '';\
+                                            if (label) \{\
+                                                label += ': ';\
+                                            \}\
+                                            if (context.parsed !== null) \{\
+                                                label += new Intl.NumberFormat('id-ID', \{ style: 'currency', currency: 'IDR' \}).format(context.parsed);\
+                                            \}\
+                                            return label;\
+                                        \}\
+                                    \}\
+                                \}\
+                            \}\
+                        \}\
+                    \});\
+                \}\
+            \}\
+\
+            calculateBudgetBtn.addEventListener('click', () => \{\
+                const income = parseFloat(incomeInput.value);\
+                if (isNaN(income) || income <= 0) \{\
+                    budgetResults.innerHTML = `<p class="text-red-500">Masukkan jumlah pendapatan yang valid.</p>`;\
+                    return;\
+                \}\
+                const needs = income * 0.5;\
+                const wants = income * 0.3;\
+                const savings = income * 0.2;\
+                \
+                const formatCurrency = (val) => new Intl.NumberFormat('id-ID', \{ style: 'currency', currency: 'IDR', minimumFractionDigits: 0 \}).format(val);\
+\
+                budgetResults.innerHTML = `\
+                    <div class="flex justify-between items-center bg-green-50 p-2 rounded"><span>\uc0\u55357 \u57314  Kebutuhan:</span> <span class="font-bold">$\{formatCurrency(needs)\}</span></div>\
+                    <div class="flex justify-between items-center bg-yellow-50 p-2 rounded"><span>\uc0\u55357 \u57313  Keinginan:</span> <span class="font-bold">$\{formatCurrency(wants)\}</span></div>\
+                    <div class="flex justify-between items-center bg-blue-50 p-2 rounded"><span>\uc0\u55357 \u56629  Tabungan:</span> <span class="font-bold">$\{formatCurrency(savings)\}</span></div>\
+                `;\
+                createOrUpdateChart(needs, wants, savings);\
+            \});\
+            createOrUpdateChart(50,30,20);\
+            \
+            const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent";\
+            const apiKey = ""; \
+\
+            async function fetchWithExponentialBackoff(url, options, maxRetries = 5) \{\
+                for (let i = 0; i < maxRetries; i++) \{\
+                    try \{\
+                        const response = await fetch(url, options);\
+                        if (response.status !== 429) return response;\
+                        \
+                        const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;\
+                        await new Promise(resolve => setTimeout(resolve, delay));\
+                    \} catch (error) \{\
+                        if (i === maxRetries - 1) throw error;\
+                        const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;\
+                        await new Promise(resolve => setTimeout(resolve, delay));\
+                    \}\
+                \}\
+                throw new Error("Maximum retry attempts reached.");\
+            \}\
+\
+            async function generateSmartGoal() \{\
+                const inputElement = document.getElementById('vagueGoalInput');\
+                const outputElement = document.getElementById('smartGoalOutput');\
+                const button = document.getElementById('generateSmartGoalBtn');\
+                const spinner = document.getElementById('loading-spinner');\
+                const buttonText = document.getElementById('generator-text');\
+                \
+                const userQuery = inputElement.value.trim();\
+                if (!userQuery) \{\
+                    outputElement.innerHTML = `<p class="text-red-500">Mohon masukkan tujuan keuangan Anda terlebih dahulu.</p>`;\
+                    return;\
+                \}\
+\
+                button.disabled = true;\
+                spinner.classList.remove('hidden');\
+                buttonText.textContent = 'Menganalisis...';\
+                outputElement.innerHTML = `<p class="text-center text-stone-500">Sedang membuat Tujuan SMART Anda...</p>`;\
+\
+                const systemPrompt = "Anda adalah Perencana Keuangan Bersertifikat. Tugas Anda adalah mengambil tujuan keuangan umum atau tidak jelas yang diberikan pengguna dan mengubahnya menjadi tujuan yang terperinci dan dapat ditindaklanjuti. Respon harus dalam Bahasa Indonesia dan harus mengikuti kerangka SMART (Specific, Measurable, Achievable, Relevant, Time-bound). Format respons Anda sebagai satu paragraf yang kuat, dimulai dengan 'Tujuan SMART Anda adalah...'";\
+\
+                const payload = \{\
+                    contents: [\{ parts: [\{ text: userQuery \}] \}],\
+                    systemInstruction: \{ parts: [\{ text: systemPrompt \}] \},\
+                \};\
+\
+                const url = `$\{API_URL\}?key=$\{apiKey\}`;\
+\
+                try \{\
+                    const response = await fetchWithExponentialBackoff(url, \{\
+                        method: 'POST',\
+                        headers: \{ 'Content-Type': 'application/json' \},\
+                        body: JSON.stringify(payload)\
+                    \});\
+\
+                    const result = await response.json();\
+                    const generatedText = result.candidates?.[0]?.content?.parts?.[0]?.text;\
+\
+                    if (generatedText) \{\
+                        outputElement.innerHTML = `<div class="font-semibold text-indigo-800 mb-2">Tujuan SMART Anda:</div>$\{generatedText\}`;\
+                    \} else \{\
+                        outputElement.innerHTML = `<p class="text-red-500">Maaf, terjadi kesalahan saat menghasilkan tujuan. Coba lagi.</p>`;\
+                    \}\
+                \} catch (error) \{\
+                    outputElement.innerHTML = `<p class="text-red-500">Terjadi kesalahan koneksi. Pastikan Anda terhubung ke internet.</p>`;\
+                \} finally \{\
+                    button.disabled = false;\
+                    spinner.classList.add('hidden');\
+                    buttonText.textContent = '\uc0\u10024  Ubah Menjadi Tujuan SMART';\
+                \}\
+            \}\
+            \
+            document.getElementById('generateSmartGoalBtn').addEventListener('click', generateSmartGoal);\
+        \});\
+    </script>\
+</body>\
+</html>\
+}
